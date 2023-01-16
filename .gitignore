@@ -2,7 +2,9 @@
 docs.json
 __dummy.html
 docs/
+builds/
 /libinochi2d
+inochi2d.h
 libinochi2d.so
 libinochi2d.dylib
 inochi2d.dll
