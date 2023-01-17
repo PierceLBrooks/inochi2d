@@ -4,7 +4,7 @@ include(FetchContent)
 
 project(Inochi2D)
 
-set(SFML_VERSION "2.5.1")
+set(SFML_VERSION "master")
 
 FetchContent_Declare(
     sfml
@@ -25,6 +25,9 @@ set_target_properties(libinochi2d PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_L
 add_library(libdruntime STATIC IMPORTED)
 set_target_properties(libdruntime PROPERTIES IMPORTED_LOCATION $ENV{DRUNTIME_LIBS}/${CMAKE_STATIC_LIBRARY_PREFIX}druntime-ldc${CMAKE_STATIC_LIBRARY_SUFFIX})
 
+add_library(libphobos STATIC IMPORTED)
+set_target_properties(libphobos PROPERTIES IMPORTED_LOCATION $ENV{DRUNTIME_LIBS}/${CMAKE_STATIC_LIBRARY_PREFIX}phobos2-ldc${CMAKE_STATIC_LIBRARY_SUFFIX})
+
 include_directories(${sfml_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
@@ -42,6 +45,7 @@ target_link_libraries(inochi2d
     PRIVATE
         libinochi2d
         ${LIBS}
+        libphobos
         libdruntime
         sfml-audio
         sfml-graphics
