@@ -22,20 +22,27 @@ endif()
 add_library(libinochi2d STATIC IMPORTED)
 set_target_properties(libinochi2d PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}inochi2d${CMAKE_STATIC_LIBRARY_SUFFIX})
 
+add_library(libdruntime STATIC IMPORTED)
+set_target_properties(libdruntime PROPERTIES IMPORTED_LOCATION $ENV{DRUNTIME_LIBS}/${CMAKE_STATIC_LIBRARY_PREFIX}druntime-ldc${CMAKE_STATIC_LIBRARY_SUFFIX})
+
 include_directories(${sfml_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-set(SOURCE
+set(SRCS
     ${CMAKE_CURRENT_LIST_DIR}/main.cpp
 )
 
 add_executable(inochi2d
-    ${SOURCE}
+    ${SRCS}
 )
+
+file(GLOB LIBS "${CMAKE_CURRENT_LIST_DIR}/.build/*${CMAKE_STATIC_LIBRARY_SUFFIX}")
 
 target_link_libraries(inochi2d
     PRIVATE
         libinochi2d
+        ${LIBS}
+        libdruntime
         sfml-audio
         sfml-graphics
         sfml-system
@@ -43,4 +50,6 @@ target_link_libraries(inochi2d
 )
 
 target_compile_features(inochi2d PRIVATE cxx_std_14)
+
+install(TARGETS inochi2d)
 
